@@ -1,0 +1,19 @@
+.square {
+    width: 50px;
+    height: 50px;
+    background-color: lightblue;
+    border: 1px solid black;
+    display: inline-block;
+    font-size: 24px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  
+  .board-row {
+    display: flex;
+  }
+  
+  .square.winning {
+    color: green; /* Winning squares will be green */
+  }
+  
