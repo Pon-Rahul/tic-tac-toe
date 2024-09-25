@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Game from "./components/Game";
+import "../src/App.css"
 
 function App() {
   const [gridSize, setGridSize] = useState(3);
@@ -15,10 +16,10 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div>
       {!startGame ? (
-        <div>
-          <h1>Customizable Tic-Tac-Toe</h1>
+        <div className="content">
+          <h1 >Tic-Tac-Toe</h1>
           <label>
             Grid Size (3-10):
             <input
@@ -29,7 +30,6 @@ function App() {
               max={10}
             />
           </label>
-          <br />
           <label>
             Win Streak (3 to Grid Size):
             <input
@@ -40,11 +40,10 @@ function App() {
               max={gridSize}
             />
           </label>
-          <br />
-          <button onClick={handleStartGame}>Start Game</button>
+          <button className="button-32" onClick={handleStartGame}>Start Game</button>
         </div>
       ) : (
-        <Game gridSize={gridSize} winStreak={winStreak} />
+        <Game gridSize={gridSize} winStreak={winStreak} setStartGame={setStartGame}/>
       )}
     </div>
   );

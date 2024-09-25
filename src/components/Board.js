@@ -13,7 +13,7 @@ const Board = ({ squares, onClick, gridSize, winningLine }) => {
             key={index}
             value={squares[index]}
             onClick={() => onClick(index)}
-            isWinningSquare={winningLine.includes(index)} // Highlight winning square
+            isWinningSquare={winningLine.includes(index)} 
           />
         );
       }

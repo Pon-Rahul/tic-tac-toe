@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Board from "./Board";
+import "./Game.css";
 
-const Game = ({ gridSize, winStreak }) => {
+const Game = ({ gridSize, winStreak, setStartGame }) => {
   const [squares, setSquares] = useState(Array(gridSize * gridSize).fill(null));
   const [isXNext, setIsXNext] = useState(true);
   const [winner, setWinner] = useState(null);
@@ -18,12 +19,12 @@ const Game = ({ gridSize, winStreak }) => {
     const result = calculateWinner(newSquares, gridSize, winStreak);
     if (result.winner) {
       setWinner(result.winner);
-      setWinningLine(result.line); // Set the winning line to highlight
+      setWinningLine(result.line);
     } else if (newSquares.every((sq) => sq !== null)) {
       setWinner("Draw");
     }
   };
-
+console.log(gridSize)
   const resetGame = () => {
     setSquares(Array(gridSize * gridSize).fill(null));
     setIsXNext(true);
@@ -32,31 +33,47 @@ const Game = ({ gridSize, winStreak }) => {
   };
 
   return (
-    <div>
-      <h2>Tic-Tac-Toe: {gridSize} x {gridSize}, Win Streak: {winStreak}</h2>
+    <div className="game_js">
+    <h2 style={{ marginTop: gridSize > 7 ? "200px" : "0px" }}>
+        Tic-Tac-Toe: {gridSize} x {gridSize}, Win Streak: {winStreak}
+      </h2>
       <Board
         squares={squares}
         onClick={handleClick}
         gridSize={gridSize}
-        winningLine={winningLine} // Pass winning line to Board
+        winningLine={winningLine}
       />
+
       {winner ? (
         <div>
-          <h3>{winner === "Draw" ? "It's a draw!" : `Winner: ${winner}`}</h3>
-          <button onClick={resetGame}>Restart Game</button>
+          <div className="black">
+            <div className="its_match">
+              {winner === "Draw" ? "It's a draw!" : `Winner: "${winner}"`}
+            </div>
+            <button onClick={resetGame} className="button-32">
+              Restart Game
+            </button>
+            <button onClick={() => setStartGame(false)} className="button-32">
+              Home
+            </button>
+          </div>
         </div>
       ) : (
-        <h3>Next Player: {isXNext ? "X" : "O"}</h3>
+        <div>
+          <h3>Next Player: {isXNext ? "X" : "O"}</h3>
+        </div>
       )}
+      <button onClick={() => setStartGame(false)} className="button-32">
+            Back
+          </button>
     </div>
   );
 };
 
-// Updated function to return both the winner and the winning line
 const calculateWinner = (squares, gridSize, winStreak) => {
   const lines = [];
 
-  // Horizontal lines
+
   for (let i = 0; i < gridSize; i++) {
     for (let j = 0; j <= gridSize - winStreak; j++) {
       let row = [];
@@ -67,7 +84,7 @@ const calculateWinner = (squares, gridSize, winStreak) => {
     }
   }
 
-  // Vertical lines
+
   for (let i = 0; i < gridSize; i++) {
     for (let j = 0; j <= gridSize - winStreak; j++) {
       let col = [];
@@ -78,7 +95,7 @@ const calculateWinner = (squares, gridSize, winStreak) => {
     }
   }
 
-  // Diagonal (top-left to bottom-right)
+
   for (let i = 0; i <= gridSize - winStreak; i++) {
     for (let j = 0; j <= gridSize - winStreak; j++) {
       let diag = [];
@@ -89,7 +106,6 @@ const calculateWinner = (squares, gridSize, winStreak) => {
     }
   }
 
-  // Diagonal (top-right to bottom-left)
   for (let i = 0; i <= gridSize - winStreak; i++) {
     for (let j = winStreak - 1; j < gridSize; j++) {
       let diag = [];
@@ -100,7 +116,6 @@ const calculateWinner = (squares, gridSize, winStreak) => {
     }
   }
 
-  // Check for winner
   for (let line of lines) {
     const [a, ...rest] = line;
     if (squares[a] && rest.every((i) => squares[i] === squares[a])) {
